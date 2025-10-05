@@ -1,10 +1,10 @@
 const express = require('express');
-const http = require('http');
 const path = require('path');
+const { createServer } = require('http');
 const { Server } = require('socket.io');
 
 const app = express();
-const server = http.createServer(app);
+const server = createServer(app);
 const io = new Server(server);
 
 // 提供静态文件服务
@@ -99,6 +99,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// API 路由：获取项目数据
+app.get('/api/projects', (req, res) => {
+    res.json(projects);
+});
+
 // Socket.io 实时通信
 io.on('connection', (socket) => {
     console.log('用户已连接');
@@ -186,8 +191,13 @@ setInterval(() => {
     console.log('数据已更新', new Date().toLocaleTimeString());
 }, 5000); // 每5秒更新一次
 
-// 启动服务器
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, '0.0.0.0', () => {
-    console.log(`济南大学体测实时排名系统运行在端口 ${PORT}`);
-});
+// Vercel 兼容性：导出为服务器less函数
+module.exports = app;
+
+// 本地开发时启动服务器
+if (require.main === module) {
+    const PORT = process.env.PORT || 3000;
+    server.listen(PORT, () => {
+        console.log(`济南大学体测实时排名系统运行在 http://localhost:${PORT}`);
+    });
+}
