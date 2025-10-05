@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>济南大学体测实时排名系统</title>
+    <!-- 修正CSS路径 -->
+    <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>济南大学体测实时排名系统</h1>
+            <div class="subtitle">实时更新 • 每5秒自动刷新</div>
+        </header>
+        
+        <div class="control-panel">
+            <div class="project-selector">
+                <label for="project-select">选择测试项目：</label>
+                <select id="project-select">
+                    <option value="male-1000m">男生1000米跑</option>
+                    <option value="female-800m">女生800米跑</option>
+                    <option value="standing-long-jump">立定跳远</option>
+                    <option value="sit-up">仰卧起坐</option>
+                    <option value="pull-up">引体向上</option>
+                </select>
+            </div>
+            <div class="auto-refresh">
+                <span class="refresh-indicator"></span>
+                <span>自动更新中</span>
+            </div>
+        </div>
+        
+        <div class="current-project">
+            <h2 id="project-title">男生1000米跑成绩排行榜</h2>
+            <div class="update-time">最后更新: <span id="update-time">--</span></div>
+        </div>
+        
+        <div class="ranking-container">
+            <table class="ranking-table">
+                <thead>
+                    <tr>
+                        <th class="rank-col">排名</th>
+                        <th class="name-col">姓名</th>
+                        <th class="id-col">学号</th>
+                        <th class="score-col">成绩</th>
+                        <th class="class-col">班级</th>
+                        <th class="change-col">变化</th>
+                    </tr>
+                </thead>
+                <tbody id="ranking-body">
+                    <tr>
+                        <td colspan="6" class="loading">正在加载数据...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="stats-panel">
+            <h3>数据统计</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-students">--</div>
+                    <div class="stat-label">参与学生</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="avg-score">--</div>
+                    <div class="stat-label">平均成绩</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="best-score">--</div>
+                    <div class="stat-label">最佳成绩</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="updated-count">--</div>
+                    <div class="stat-label">今日更新</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>济南大学体育部 &copy; 2023 | 系统状态: <span class="status-running">运行中</span></p >
+        </footer>
+    </div>
+
+    <!-- 修正JavaScript路径 -->
+    <script src="script.js"></script>
+</body>
+</html>
